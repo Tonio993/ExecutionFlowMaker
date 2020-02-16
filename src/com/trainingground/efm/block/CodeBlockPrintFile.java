@@ -12,8 +12,8 @@ public class CodeBlockPrintFile extends CodeBlock {
 		SafeEntry<String, Object> var = parameters.get(FILE_READER);
 		if (var.get() != null) {
 			Scanner scanner = (Scanner) var.get();
-			while(scanner.hasNext()) {
-				System.out.println(scanner.hasNextLine());
+			while(scanner.hasNextLine()) {
+				System.out.println(scanner.nextLine());
 			}
 		}
 		var.release();

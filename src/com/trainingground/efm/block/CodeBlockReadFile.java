@@ -10,12 +10,6 @@ public class CodeBlockReadFile extends CodeBlock {
 	
 	private static final String FILE_PATH = "FILE_PATH";
 	private static final String FILE_READER = "FILE_READER";
-	
-	private final String filePath;
-	
-	public CodeBlockReadFile(String filePath) {
-		this.filePath = filePath;
-	}
 
 	public void execute() throws InterruptedException {
 		SafeEntry<String, Object> var = parameters.get(FILE_PATH);
