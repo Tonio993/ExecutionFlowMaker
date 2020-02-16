@@ -1,7 +1,13 @@
-package com.trainingground.efm.block;
+package com.trainingground.efm.block.email;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -9,6 +15,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import com.sun.mail.smtp.SMTPTransport;
+import com.trainingground.efm.block.CodeBlock;
 import com.trainingground.efm.datastruct.SafeEntry;
 
 public class CodeBlockSendEmail extends CodeBlock {
@@ -41,7 +48,7 @@ public class CodeBlockSendEmail extends CodeBlock {
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo.get().toString(), false));
             msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(emailToCc.get().toString(), false));
             msg.setSubject(emailSubject.get().toString());
-            msg.setText(emailText.get().toString());
+            msg.setDataHandler(new DataHandler(new HTMLDataSource(emailText.get().toString())));
             msg.setSentDate(new Date());
             SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
             t.connect(smtpServer.get().toString(), username.get().toString(), password.get().toString());
@@ -64,6 +71,34 @@ public class CodeBlockSendEmail extends CodeBlock {
 		
 	}
 	
-	
+    static class HTMLDataSource implements DataSource {
+
+        private String html;
+
+        public HTMLDataSource(String htmlString) {
+            html = htmlString;
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            if (html == null) throw new IOException("html message is null!");
+            return new ByteArrayInputStream(html.getBytes());
+        }
+
+        @Override
+        public OutputStream getOutputStream() throws IOException {
+            throw new IOException("This DataHandler cannot write HTML");
+        }
+
+        @Override
+        public String getContentType() {
+            return "text/html";
+        }
+
+        @Override
+        public String getName() {
+            return "HTMLDataSource";
+        }
+    }
 
 }

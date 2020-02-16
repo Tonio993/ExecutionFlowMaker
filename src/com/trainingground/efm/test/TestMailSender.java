@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import com.trainingground.efm.block.CodeBlock;
-import com.trainingground.efm.block.CodeBlockSendEmail;
+import com.trainingground.efm.block.email.CodeBlockSendEmail;
 import com.trainingground.efm.datastruct.SafeMap;
 import com.trainingground.efm.datastruct.graph.Graph;
 import com.trainingground.efm.flow.CodeFlow;
@@ -21,7 +21,7 @@ public class TestMailSender {
     private static final String EMAIL_TO_CC = "";
 
     private static final String EMAIL_SUBJECT = "Test Send Email via SMTP";
-    private static final String EMAIL_TEXT = "Hello Java Mail \n ABC123";
+    private static final String EMAIL_TEXT = "<h1>Hello Java Mail \n ABC123</h1>";
 	
 	public static void main(String[] args) throws InterruptedException {
 		Properties prop = System.getProperties();
